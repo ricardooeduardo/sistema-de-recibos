@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Interno – Rocha Cerqueira</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2canvas & jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .btn-hover-effect {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-hover-effect:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-900">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="showView('home')">
+                    <div class="w-8 h-8 bg-blue-900 rounded-lg flex items-center justify-center text-white font-bold">RC</div>
+                    <span class="font-bold text-xl tracking-tight text-slate-800">Rocha Cerqueira</span>
+                </div>
+                <div id="nav-actions" class="hidden">
+                    <button onclick="showView('home')" class="text-sm font-medium text-slate-500 hover:text-blue-900 flex items-center transition-colors">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        Voltar para Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        
+        <!-- HOME VIEW -->
+        <div id="view-home" class="py-12 animate-in fade-in duration-500">
+            <div class="text-center mb-16">
+                <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight sm:text-5xl mb-4">
+                    Sistema Interno de Gestão
+                </h1>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                    Central de emissão de recibos e controle de benefícios Rocha Cerqueira. Selecione o módulo desejado para começar.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <button onclick="showView('participation')" class="glass-card p-10 rounded-3xl text-left btn-hover-effect group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500 opacity-50"></div>
+                    <div class="relative">
+                        <div class="w-14 h-14 bg-blue-900 rounded-2xl flex items-center justify-center text-white mb-6">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m.5-1c.28 0 .551-.024.811-.071M12 16c-1.11 0-2.08-.402-2.599-1M12 16V15m0 1v-8"></path></svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800 mb-2">Recibo de Participação</h2>
+                        <p class="text-slate-500">Gestão de lucros, remuneração fixa, pró-labore e pagamentos extras.</p>
+                        <div class="mt-8 flex items-center text-blue-900 font-semibold group-hover:translate-x-2 transition-transform">
+                            Acessar módulo 
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </div>
+                    </div>
+                </button>
+
+                <button onclick="showView('benefits')" class="glass-card p-10 rounded-3xl text-left btn-hover-effect group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500 opacity-50"></div>
+                    <div class="relative">
+                        <div class="w-14 h-14 bg-emerald-600 rounded-2xl flex items-center justify-center text-white mb-6">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800 mb-2">Recibo de Benefícios</h2>
+                        <p class="text-slate-500">Lançamento de vale transporte, alimentação, home office, internet e combustível.</p>
+                        <div class="mt-8 flex items-center text-emerald-600 font-semibold group-hover:translate-x-2 transition-transform">
+                            Acessar módulo 
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- MODULE VIEWS WRAPPER -->
+        <div id="module-container" class="hidden">
+            <!-- Shared Header for Modules -->
+            <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+                <div id="module-header" class="px-8 py-6 text-white bg-slate-800">
+                    <h2 id="view-title" class="text-2xl font-bold">Título do Módulo</h2>
+                    <p class="text-slate-300 text-sm">Preencha os dados abaixo para gerar o PDF.</p>
+                </div>
+
+                <div class="p-8 space-y-8">
+                    <!-- COMMON: Colaborador -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Dados do Colaborador</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Nome do Colaborador</label>
+                                <select id="nome" onchange="preencherCPF()" class="w-full border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                                    <option value="">Selecione o colaborador</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">CPF</label>
+                                <input id="cpf" class="w-full border-transparent bg-slate-200 text-slate-600 rounded-xl p-3 cursor-not-allowed" placeholder="000.000.000-00" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PARTICIPATION MODULE INTERFACE -->
+                    <div id="interface-participation" class="hidden space-y-6">
+                        <!-- Adiantamento -->
+                        <section>
+                            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                                <span class="w-2 h-6 bg-blue-600 rounded-full mr-3"></span>
+                                Adiantamento de Lucros
+                            </h3>
+                            <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-slate-50 border-b border-slate-200">
+                                        <tr>
+                                            <th class="p-4 text-left font-semibold text-slate-600">Data</th>
+                                            <th class="p-4 text-left font-semibold text-slate-600">Descrição</th>
+                                            <th class="p-4 text-right font-semibold text-slate-600">Valor (R$)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adiantamento-rows">
+                                        <tr class="border-b border-slate-100">
+                                            <td class="p-3"><input type="date" class="w-full border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-blue-500"></td>
+                                            <td class="p-3 text-slate-700 font-medium">Pessoal Jurídico – Remuneração Fixa</td>
+                                            <td class="p-3"><input type="number" step="0.01" class="w-full border-slate-200 rounded-lg p-2 text-right valor-adiantamento" oninput="calcularTudo()"></td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="p-3"><input type="date" class="w-full border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-blue-500"></td>
+                                            <td class="p-3 text-slate-700 font-medium">Pessoal Jurídico – Pró-Labore</td>
+                                            <td class="p-3"><input type="number" step="0.01" class="w-full border-slate-200 rounded-lg p-2 text-right valor-adiantamento" oninput="calcularTudo()"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- Participações -->
+                        <section>
+                            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                                <span class="w-2 h-6 bg-blue-600 rounded-full mr-3"></span>
+                                Participações nos Lucros
+                            </h3>
+                            <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-slate-50 border-b border-slate-200">
+                                        <tr>
+                                            <th class="p-4 text-left font-semibold text-slate-600">Data</th>
+                                            <th class="p-4 text-left font-semibold text-slate-600">Descrição</th>
+                                            <th class="p-4 text-left font-semibold text-slate-600">Atuação</th>
+                                            <th class="p-4 text-right font-semibold text-slate-600">Valor (R$)</th>
+                                            <th class="p-4 w-10"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="participacoes-rows"></tbody>
+                                </table>
+                            </div>
+                            <button onclick="addRow('participacoes')" class="mt-4 text-sm font-bold text-blue-600 hover:text-blue-800 flex items-center transition-colors">
+                                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                                Adicionar Linha de Participação
+                            </button>
+                        </section>
+
+                        <!-- Extras -->
+                        <section>
+                            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                                <span class="w-2 h-6 bg-blue-600 rounded-full mr-3"></span>
+                                Pagamentos Extras
+                            </h3>
+                            <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-slate-50 border-b border-slate-200">
+                                        <tr>
+                                            <th class="p-4 text-left font-semibold text-slate-600">Data</th>
+                                            <th class="p-4 text-left font-semibold text-slate-600">Descrição</th>
+                                            <th class="p-4 text-right font-semibold text-slate-600">Valor (R$)</th>
+                                            <th class="p-4 w-10"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="extras-rows"></tbody>
+                                </table>
+                            </div>
+                            <button onclick="addRow('extras')" class="mt-4 text-sm font-bold text-blue-600 hover:text-blue-800 flex items-center transition-colors">
+                                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                                Adicionar Pagamento Extra
+                            </button>
+                        </section>
+                    </div>
+
+                    <!-- BENEFITS MODULE INTERFACE -->
+                    <div id="interface-benefits" class="hidden space-y-6">
+                        <section>
+                            <h3 class="text-lg font-bold text-emerald-700 mb-4 flex items-center">
+                                <span class="w-2 h-6 bg-emerald-600 rounded-full mr-3"></span>
+                                Lançamento de Benefícios
+                            </h3>
+                            <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-slate-50 border-b border-slate-200">
+                                        <tr>
+                                            <th class="p-4 text-left font-semibold text-slate-600">Data</th>
+                                            <th class="p-4 text-left font-semibold text-slate-600">Benefício</th>
+                                            <th class="p-4 text-left font-semibold text-slate-600">Observação</th>
+                                            <th class="p-4 text-right font-semibold text-slate-600">Valor (R$)</th>
+                                            <th class="p-4 w-10"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="beneficios-rows"></tbody>
+                                </table>
+                            </div>
+                            <button onclick="addRow('beneficios')" class="mt-4 text-sm font-bold text-emerald-600 hover:text-emerald-800 flex items-center transition-colors">
+                                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                                Adicionar Benefício
+                            </button>
+                        </section>
+                    </div>
+
+                    <!-- TOTAL & ACTIONS -->
+                    <div class="pt-8 border-t border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div class="bg-slate-900 rounded-2xl p-6 text-white min-w-[240px]">
+                            <p class="text-xs uppercase tracking-widest text-slate-400 font-bold mb-1">Total Consolidado</p>
+                            <p class="text-3xl font-extrabold">R$ <span id="display-total">0,00</span></p>
+                        </div>
+                        <button id="btn-generate" onclick="generatePDF()" class="flex-1 max-w-sm bg-blue-900 text-white rounded-2xl py-4 font-bold text-lg btn-hover-effect flex items-center justify-center space-x-2">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            <span>Gerar PDF Oficial</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- HIDDEN PDF RENDERING ELEMENT (improved layout) -->
+    <div id="pdf-template" class="hidden" style="width: 595pt; padding: 40pt; background: white; color: black; font-family: 'Times New Roman', serif;">
+        <div style="border-bottom: 2pt solid #1e3a8a; padding-bottom: 15pt; margin-bottom: 30pt; text-align: center;">
+            <h1 id="pdf-header-title" style="font-size: 20pt; font-weight: bold; margin: 0; color: #1e3a8a;">RECIBO</h1>
+            <p style="margin: 5pt 0 0 0; font-size: 10pt; text-transform: uppercase; color: #64748b;">Rocha Cerqueira – Gestão Interna</p>
+        </div>
+
+        <div style="margin-bottom: 30pt; line-height: 1.6; text-align: justify; font-size: 11pt;">
+            Eu, <strong id="pdf-employee-name"></strong>, portador do CPF <strong id="pdf-employee-cpf"></strong>, 
+            declaro para os devidos fins que recebi da empresa Rocha Cerqueira os valores detalhados conforme a tabela abaixo:
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30pt; font-size: 10pt;">
+            <thead style="background: #f8fafc; border-bottom: 1pt solid #cbd5e1;">
+                <tr id="pdf-table-header"></tr>
+            </thead>
+            <tbody id="pdf-table-rows"></tbody>
+        </table>
+
+        <div style="text-align: right; margin-bottom: 60pt;">
+            <span style="font-size: 12pt; font-weight: bold; color: #1e3a8a; background: #f1f5f9; padding: 10pt 20pt; border-radius: 4pt;">
+                TOTAL GERAL: R$ <span id="pdf-total-amount"></span>
+            </span>
+        </div>
+
+        <div style="margin-top: 80pt; text-align: center;">
+            <div style="width: 250pt; border-bottom: 1pt solid #1e293b; margin: 0 auto 5pt auto;"></div>
+            <p style="font-size: 10pt; font-weight: bold; margin: 0;">ASSINATURA DO COLABORADOR</p>
+            <p id="pdf-footer-date" style="font-size: 9pt; color: #64748b; margin-top: 15pt;"></p>
+        </div>
+    </div>
+
+    <script>
+        /* CONFIGURATION */
+        const colaboradores = {
+            "ALBERTO LUIZ BERNARDO": "674.393.656-15",
+            "AMANDA PEREIRA DE ALMEIDA": "018.307.256-10",
+            "BRUNA DE ABREU PEREIRA": "126.843.226-19",
+            "DANIEL PIERI QUEIEROZ": "111.812.126-00",
+            "FLAVIANA KELLY MENDES DA SILVA": "062.143.026-90",
+            "GABRIEL RAFAEL DE OLIVEIRA": "164.941.316-54",
+            "GIOVANNA MORAES MAIA": "191.123.087-57",
+            "ISABELLA ALMEIDA MEIDEIROS DE SOUZA": "149.420.836-99",
+            "JOSIE TEIXEIRA": "051.902.166-59",
+            "JULIA FERNANDES MENDES": "018.646.856-38",
+            "JULIANA DE OLIVEIRA SOARES": "052.085.396-24",
+            "KLARA LOUISE DE ANDRADE": "119.020.186-05",
+            "LETICIA SANTOS DA CRUZ": "091.467.306-80",
+            "LUCIELE DE MELO SOARES": "090.006.946-55",
+            "MARCOS VINICIUS BRAGA DA SILVA": "064.464.286-69",
+            "MARIA EDUARDA": "147.706.486-93",
+            "MARIA VITORIA ASSIS MAGALHAES CORREA": "144.239.486-21",
+            "MICHELLE CAMILA DE SOUZA": "128.977.076-07",
+            "NATÁLIA CARDOSO MARRA": "064.308.916-07",
+            "PAMELA BEATRIZ PINHEIRO": "135.639.406-06",
+            "PEDRO DE ALMEIDA ABRAHÃO": "107.686.856-80",
+            "RAFAEL SANTOS DE ALMEIDA": "064.576.186-93",
+            "RICARDO SOARES": "140.263.006-92",
+            "ROBERTH LUCAS LACERDA": "126.377.816-02",
+            "SAMUEL CALDEIRA": "138.045.046-20",
+            "SERGIO EDUARDO CARNEIRO DA SILVA JÚNIOR": "116.932.276-06",
+            "SUZANE LEMOS": "129.836.266-01",
+            "THALINE": "136.656.606-88",
+            "WALTER ROCHA DE CERQUEIRA": "007.454.676-79"
+        };
+
+        const atuacoes = ["Captação", "Participação", "Liderança", "Responsável Geral", "Captação e Participação", "Participação e Liderança", "Captação e Liderança", "Responsável e Captação", "Responsável e Participação", "Responsável e Liderança", "Captação, Participação e Liderança", "Responsável, Captação e Participação", "Responsável, Participação e Liderança", "Responsável, Captação e Liderança", "Responsável, Captação, Participação e Liderança"];
+        const listaBeneficios = ["Vale Transporte", "Vale Alimentação", "Auxílio Home Office", "Ajuda Internet", "Combustível"];
+
+        let currentModule = null;
+
+        /* INITIALIZATION */
+        window.onload = () => {
+            const select = document.getElementById("nome");
+            Object.keys(colaboradores).sort().forEach(nome => {
+                const opt = new Option(nome, nome);
+                select.add(opt);
+            });
+            // Initial call to hide everything and show home
+            showView('home');
+        };
+
+        /* CORE VIEW LOGIC */
+        function showView(viewId) {
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('module-container').classList.add('hidden');
+            document.getElementById('nav-actions').classList.add('hidden');
+            
+            document.getElementById('interface-participation').classList.add('hidden');
+            document.getElementById('interface-benefits').classList.add('hidden');
+            
+            if (viewId === 'home') {
+                document.getElementById('view-home').classList.remove('hidden');
+                currentModule = null;
+            } else {
+                document.getElementById('module-container').classList.remove('hidden');
+                document.getElementById('nav-actions').classList.remove('hidden');
+                
+                if (viewId === 'participation') {
+                    currentModule = 'participation';
+                    document.getElementById('view-title').innerText = 'Recibo de Participação nos Lucros';
+                    document.getElementById('interface-participation').classList.remove('hidden');
+                    document.getElementById('module-header').className = 'px-8 py-6 text-white bg-slate-800';
+                    document.getElementById('btn-generate').className = 'flex-1 max-w-sm bg-blue-900 text-white rounded-2xl py-4 font-bold text-lg btn-hover-effect flex items-center justify-center space-x-2';
+                } else if (viewId === 'benefits') {
+                    currentModule = 'benefits';
+                    document.getElementById('view-title').innerText = 'Controle de Benefícios';
+                    document.getElementById('interface-benefits').classList.remove('hidden');
+                    document.getElementById('module-header').className = 'px-8 py-6 text-white bg-emerald-700';
+                    document.getElementById('btn-generate').className = 'flex-1 max-w-sm bg-emerald-600 text-white rounded-2xl py-4 font-bold text-lg btn-hover-effect flex items-center justify-center space-x-2';
+                }
+            }
+            calcularTudo();
+        }
+
+        /* DATA LOGIC */
+        function preencherCPF() {
+            document.getElementById('cpf').value = colaboradores[document.getElementById('nome').value] || "";
+        }
+
+        function addRow(type) {
+            const tbody = document.getElementById(`${type}-rows`);
+            const tr = document.createElement('tr');
+            tr.className = 'border-b border-slate-100 group';
+            
+            let cells = '';
+            const today = new Date().toISOString().split('T')[0];
+
+            if (type === 'participacoes') {
+                cells = `
+                    <td class="p-3"><input type="date" value="${today}" class="w-full border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-blue-500"></td>
+                    <td class="p-3"><input type="text" class="w-full border-slate-200 rounded-lg p-2" placeholder="Descrição"></td>
+                    <td class="p-3">
+                        <select class="w-full border-slate-200 rounded-lg p-2">
+                            <option value="-">-</option>
+                            ${atuacoes.map(a => `<option>${a}</option>`).join('')}
+                        </select>
+                    </td>
+                    <td class="p-3"><input type="number" step="0.01" class="w-full border-slate-200 rounded-lg p-2 text-right valor-participacao" oninput="calcularTudo()"></td>
+                `;
+            } else if (type === 'extras') {
+                cells = `
+                    <td class="p-3"><input type="date" value="${today}" class="w-full border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-blue-500"></td>
+                    <td class="p-3"><input type="text" class="w-full border-slate-200 rounded-lg p-2" placeholder="Descrição"></td>
+                    <td class="p-3"><input type="number" step="0.01" class="w-full border-slate-200 rounded-lg p-2 text-right valor-extra" oninput="calcularTudo()"></td>
+                `;
+            } else if (type === 'beneficios') {
+                cells = `
+                    <td class="p-3"><input type="date" value="${today}" class="w-full border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500"></td>
+                    <td class="p-3">
+                        <select class="w-full border-slate-200 rounded-lg p-2">
+                            <option value="">Selecione</option>
+                            ${listaBeneficios.map(b => `<option>${b}</option>`).join('')}
+                        </select>
+                    </td>
+                    <td class="p-3"><input type="text" class="w-full border-slate-200 rounded-lg p-2" placeholder="Observação"></td>
+                    <td class="p-3"><input type="number" step="0.01" class="w-full border-slate-200 rounded-lg p-2 text-right valor-beneficio" oninput="calcularTudo()"></td>
+                `;
+            }
+
+            tr.innerHTML = cells + '<td class="p-3"><button onclick="this.closest(\'tr\').remove(); calcularTudo();" class="text-slate-300 hover:text-red-500 transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></td>';
+            tbody.appendChild(tr);
+        }
+
+        function calcularTudo() {
+            let total = 0;
+            const classes = ['valor-adiantamento', 'valor-participacao', 'valor-extra', 'valor-beneficio'];
+            
+            classes.forEach(cls => {
+                document.querySelectorAll(`.${cls}`).forEach(input => {
+                    const val = parseFloat(input.value) || 0;
+                    total += val;
+                });
+            });
+
+            document.getElementById('display-total').innerText = total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        /* PDF GENERATION */
+        async function generatePDF() {
+            const employeeName = document.getElementById('nome').value;
+            const employeeCpf = document.getElementById('cpf').value;
+
+            if (!employeeName) {
+                alert("Por favor, selecione um colaborador.");
+                return;
+            }
+
+            const headerTitle = currentModule === 'participation' ? "RECIBO DE PARTICIPAÇÃO NOS LUCROS" : "RECIBO DE BENEFÍCIOS";
+            document.getElementById('pdf-header-title').innerText = headerTitle;
+            document.getElementById('pdf-employee-name').innerText = employeeName;
+            document.getElementById('pdf-employee-cpf').innerText = employeeCpf;
+            document.getElementById('pdf-footer-date').innerText = `Emitido em ${new Date().toLocaleDateString('pt-BR')}`;
+
+            // Reset table
+            const pdfHeader = document.getElementById('pdf-table-header');
+            const pdfRows = document.getElementById('pdf-table-rows');
+            pdfHeader.innerHTML = '';
+            pdfRows.innerHTML = '';
+
+            let total = 0;
+
+            if (currentModule === 'participation') {
+                pdfHeader.innerHTML = `
+                    <th style="padding: 10pt; text-align: left; border: 0.5pt solid #e2e8f0;">Data</th>
+                    <th style="padding: 10pt; text-align: left; border: 0.5pt solid #e2e8f0;">Descrição</th>
+                    <th style="padding: 10pt; text-align: left; border: 0.5pt solid #e2e8f0;">Atuação</th>
+                    <th style="padding: 10pt; text-align: right; border: 0.5pt solid #e2e8f0;">Valor (R$)</th>
+                `;
+
+                // Collect all rows from participation sections
+                const collectors = [
+                    { cls: 'valor-adiantamento', defaultDesc: '' },
+                    { cls: 'valor-participacao', isFull: true },
+                    { cls: 'valor-extra', isShort: true }
+                ];
+
+                collectors.forEach(config => {
+                    document.querySelectorAll(`.${config.cls}`).forEach(input => {
+                        const val = parseFloat(input.value) || 0;
+                        if (val > 0 || input.classList.contains('valor-adiantamento')) {
+                            const tr = input.closest('tr');
+                            const date = tr.querySelector('input[type=date]').value;
+                            let desc = '';
+                            let tool = '-';
+
+                            if (config.cls === 'valor-adiantamento') {
+                                desc = tr.cells[1].innerText;
+                            } else if (config.isFull) {
+                                desc = tr.cells[1].querySelector('input').value;
+                                tool = tr.cells[2].querySelector('select').value;
+                            } else {
+                                desc = tr.cells[1].querySelector('input').value;
+                            }
+
+                            total += val;
+                            pdfRows.innerHTML += `
+                                <tr>
+                                    <td style="padding: 8pt; border: 0.5pt solid #e2e8f0;">${date ? new Date(date).toLocaleDateString('pt-BR') : '-'}</td>
+                                    <td style="padding: 8pt; border: 0.5pt solid #e2e8f0;">${desc}</td>
+                                    <td style="padding: 8pt; border: 0.5pt solid #e2e8f0;">${tool}</td>
+                                    <td style="padding: 8pt; border: 0.5pt solid #e2e8f0; text-align: right;">${val.toFixed(2)}</td>
+                                </tr>
+                            `;
+                        }
+                    });
+                });
+
+            } else {
+                pdfHeader.innerHTML = `
+                    <th style="padding: 10pt; text-align: left; border: 0.5pt solid #e2e8f0;">Data</th>
+                    <th style="padding: 10pt; text-align: left; border: 0.5pt solid #e2e8f0;">Benefício</th>
+                    <th style="padding: 10pt; text-align: left; border: 0.5pt solid #e2e8f0;">Observação</th>
+                    <th style="padding: 10pt; text-align: right; border: 0.5pt solid #e2e8f0;">Valor (R$)</th>
+                `;
+
+                document.querySelectorAll('.valor-beneficio').forEach(input => {
+                    const val = parseFloat(input.value) || 0;
+                    if (val > 0) {
+                        const tr = input.closest('tr');
+                        const date = tr.querySelector('input[type=date]').value;
+                        const ben = tr.cells[1].querySelector('select').value;
+                        const obs = tr.cells[2].querySelector('input').value;
+
+                        total += val;
+                        pdfRows.innerHTML += `
+                            <tr>
+                                <td style="padding: 8pt; border: 0.5pt solid #e2e8f0;">${date ? new Date(date).toLocaleDateString('pt-BR') : '-'}</td>
+                                <td style="padding: 8pt; border: 0.5pt solid #e2e8f0;">${ben}</td>
+                                <td style="padding: 8pt; border: 0.5pt solid #e2e8f0;">${obs}</td>
+                                <td style="padding: 8pt; border: 0.5pt solid #e2e8f0; text-align: right;">${val.toFixed(2)}</td>
+                            </tr>
+                        `;
+                    }
+                });
+            }
+
+            document.getElementById('pdf-total-amount').innerText = total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            // Show template momentarily for capture
+            const template = document.getElementById('pdf-template');
+            template.classList.remove('hidden');
+
+            try {
+                const canvas = await html2canvas(template, {
+                    scale: 2,
+                    logging: false,
+                    useCORS: true
+                });
+                
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'pt', 'a4');
+                const imgWidth = 595.28;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
+                
+                const prefix = currentModule === 'participation' ? 'recibo' : 'beneficios';
+                const fileName = `${prefix}_${employeeName.replace(/\s+/g, '_').toLowerCase()}.pdf`;
+                doc.save(fileName);
+            } catch (err) {
+                console.error("Erro ao gerar PDF:", err);
+                alert("Ocorreu um erro ao gerar o PDF.");
+            } finally {
+                template.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
