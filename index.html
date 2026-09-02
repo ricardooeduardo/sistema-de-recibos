@@ -294,6 +294,12 @@
                             <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
                             Benefícios
                         </button>
+                        <button id="nav-btn-admin" onclick="showView('admin')" class="hidden px-3.5 py-2 text-xs font-bold text-indigo-700 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer">
+                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                            Painel Admin
+                        </button>
                     </div>
 
                     <button onclick="logout()" class="px-4 py-2 text-xs font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl flex items-center gap-1.5 transition-all">
@@ -370,6 +376,31 @@
 
         <!-- HOME VIEW (Dashboard Modules) -->
         <div id="view-home" class="py-8 hidden animate-fade-in">
+            <!-- Admin Access Banner (Visible for Admin User) -->
+            <div id="home-admin-banner" class="hidden max-w-4xl mx-auto mb-8 p-5 rounded-3xl bg-slate-900 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-slate-800 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-600/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="flex items-center gap-4 relative">
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-indigo-300 font-bold shrink-0">
+                        <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="font-extrabold text-base flex items-center gap-2 text-white">
+                            Painel Administrativo Qualifica
+                            <span class="text-[10px] font-extrabold uppercase bg-indigo-500/30 text-indigo-300 px-2.5 py-0.5 rounded-full border border-indigo-400/30">Admin</span>
+                        </div>
+                        <p class="text-xs text-slate-400 font-medium mt-0.5">Gestão completa de colaboradores, CPFs e cargos do sistema.</p>
+                    </div>
+                </div>
+                <button onclick="showView('admin')" class="w-full sm:w-auto px-5 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer relative shrink-0">
+                    <span>Acessar Painel /admin</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </button>
+            </div>
+
             <!-- Header Welcome Banner -->
             <div class="text-center mb-12">
                 <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/80 border border-blue-200 text-blue-800 text-xs font-extrabold uppercase tracking-wider mb-4">
@@ -447,6 +478,134 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN VIEW (/admin) -->
+        <div id="view-admin" class="hidden animate-fade-in py-6">
+            <div class="max-w-6xl mx-auto space-y-6">
+                <!-- Admin Header Banner -->
+                <div class="glass-card-light rounded-3xl p-6 sm:p-8 bg-slate-900 text-white relative overflow-hidden shadow-xl border border-slate-800">
+                    <div class="absolute top-0 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+                    
+                    <div class="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <button onclick="showView('home')" class="text-xs font-bold text-slate-400 hover:text-white transition-colors flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                    </svg>
+                                    Início
+                                </button>
+                                <span class="text-slate-600 text-xs">•</span>
+                                <span class="text-[10px] font-extrabold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2.5 py-0.5 rounded-full">
+                                    Administração Grupo Qualifica
+                                </span>
+                            </div>
+                            <h1 class="text-2xl sm:text-4xl font-black tracking-tight text-white flex items-center gap-3">
+                                Painel de Colaboradores
+                            </h1>
+                            <p class="text-slate-400 text-xs sm:text-sm mt-1.5 font-medium max-w-2xl">
+                                Adicione, edite ou exclua colaboradores e CPFs. As alterações afetam imediatamente a emissão de recibos.
+                            </p>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <button onclick="openAddColaboradorModal()" class="btn-blue font-extrabold rounded-2xl px-5 py-3.5 text-sm flex items-center gap-2 shadow-lg cursor-pointer">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                <span>Novo Colaborador</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="glass-card-light p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Registrado</p>
+                            <h3 id="stat-total-colaboradores" class="text-2xl font-black text-slate-900 mt-1">0</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="glass-card-light p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Sócios & Associados</p>
+                            <h3 id="stat-socios" class="text-2xl font-black text-blue-700 mt-1">0</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-50 text-blue-700 rounded-xl flex items-center justify-center font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="glass-card-light p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">CLT & Estagiários</p>
+                            <h3 id="stat-clt-estagiarios" class="text-2xl font-black text-emerald-700 mt-1">0</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-emerald-50 text-emerald-700 rounded-xl flex items-center justify-center font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Card -->
+                <div class="glass-card-light rounded-3xl bg-white border border-slate-200/90 shadow-xl overflow-hidden">
+                    <!-- Table Header Controls -->
+                    <div class="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/50">
+                        <div class="relative flex-1 max-w-md">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                            <input type="text" id="admin-search-input" oninput="renderAdminTable()" placeholder="Buscar colaborador por nome ou CPF..." class="w-full input-light rounded-xl pl-10 pr-4 py-2.5 text-xs font-semibold placeholder-slate-400 outline-none">
+                        </div>
+                        <div class="text-xs font-semibold text-slate-500">
+                            Exibindo <span id="admin-count-display" class="font-extrabold text-slate-800">0</span> colaborador(es)
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse table-light">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">
+                                    <th class="py-3.5 px-6">Colaborador</th>
+                                    <th class="py-3.5 px-6">CPF</th>
+                                    <th class="py-3.5 px-6">Cargo / Vínculo</th>
+                                    <th class="py-3.5 px-6 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-table-body" class="divide-y divide-slate-100 text-xs font-medium">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="admin-empty-state" class="hidden p-12 text-center">
+                        <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-base font-extrabold text-slate-800">Nenhum colaborador encontrado</h4>
+                        <p class="text-xs text-slate-500 mt-1">Tente ajustar o termo de busca ou cadastre um novo colaborador.</p>
                     </div>
                 </div>
             </div>
@@ -739,79 +898,164 @@
         </div>
     </div>
 
-    <!-- HIDDEN PDF RENDERING ELEMENT (Official Holerite Layout) -->
-    <div id="pdf-template" class="hidden" style="width: 595pt; padding: 20pt; background: white; color: black; font-family: Arial, sans-serif; font-size: 8pt;">
-        <!-- Header Container -->
-        <div style="border: 1.5pt solid black; margin-bottom: -1.5pt;">
-            <div style="text-align: center; padding: 10pt; border-bottom: 1pt solid black;">
-                <h2 style="margin: 0; font-size: 14pt; font-weight: bold;">ROCHA CERQUEIRA - GESTÃO E CONSULTORIA</h2>
-                <p style="margin: 2pt 0; font-weight: bold;">CNPJ: 00.745.467/0001-79</p>
-                <h3 style="margin: 8pt 0 0 0; font-size: 11pt; border-top: 1pt solid black; padding-top: 5pt; text-transform: uppercase;">
-                    Demonstrativo de Pagamento
-                </h3>
-            </div>
+    <!-- HIDDEN PDF RENDERING ELEMENT (Demonstrativo Corporativo Redesenhado) -->
+    <div id="pdf-template" class="hidden" style="width: 595pt; padding: 28pt 30pt; background: white; color: #1a1a1a; font-family: Arial, Helvetica, sans-serif; font-size: 11px; box-sizing: border-box; line-height: 1.35;">
 
-            <!-- Employee Detail Grid -->
-            <div style="display: grid; grid-template-columns: 3fr 1fr; border-bottom: 1pt solid black;">
-                <div style="padding: 4pt; border-right: 1pt solid black;">
-                    <strong>Func.:</strong> <span id="pdf-employee-code">000001</span> - <span id="pdf-employee-name" style="font-weight: bold;"></span>
+        <!-- ═══════════════ CABEÇALHO ═══════════════ -->
+        <div style="text-align: center; padding-bottom: 10pt;">
+            <div style="font-size: 20px; font-weight: bold; letter-spacing: 0.3pt; color: #111;">ROCHA CERQUEIRA</div>
+            <div style="font-size: 15px; font-weight: 600; color: #333; margin-top: 1pt;">SOCIEDADE DE ADVOGADOS</div>
+            <div style="font-size: 14px; font-weight: 600; color: #444; margin-top: 4pt;">11.508.471/0001-21</div>
+            <div style="font-size: 12px; color: #555; margin-top: 3pt;">Rua Comendador Antonio Alves, 1791 Sala 14 – Bairro Centro – Pedro Leopoldo/MG</div>
+        </div>
+
+        <!-- Linha divisória -->
+        <div style="border-top: 1.5pt solid #222; margin-bottom: 6pt;"></div>
+
+        <!-- Título do documento -->
+        <div style="text-align: center; padding: 6pt 0 8pt 0;">
+            <div style="font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 1pt; color: #111;">Demonstrativo de Pagamento</div>
+        </div>
+
+        <!-- ═══════════════ DADOS DO COLABORADOR ═══════════════ -->
+        <div style="border: 1pt solid #999; margin-bottom: 10pt;">
+            <div style="display: flex; border-bottom: 1pt solid #ccc;">
+                <div style="flex: 3; padding: 5pt 8pt; border-right: 1pt solid #ccc; font-size: 12px;">
+                    <strong style="color: #333;">Func.:</strong> <span id="pdf-employee-code" style="color: #555;">000005</span> – <span id="pdf-employee-name" style="font-weight: bold; color: #111;"></span>
                 </div>
-                <div style="padding: 4pt;">
-                    <strong>Período:</strong> <span id="pdf-periodo"></span>
+                <div style="flex: 1; padding: 5pt 8pt; font-size: 12px;">
+                    <strong style="color: #333;">Período:</strong> <span id="pdf-periodo" style="font-weight: 600;"></span>
                 </div>
             </div>
-            <div style="display: grid; grid-template-columns: 2fr 1fr; border-bottom: 1pt solid black;">
-                <div style="padding: 4pt; border-right: 1pt solid black;">
-                    <strong>Cargo:</strong> <span id="pdf-cargo">Colaborador Externo</span>
+            <div style="display: flex;">
+                <div style="flex: 3; padding: 5pt 8pt; border-right: 1pt solid #ccc; font-size: 12px;">
+                    <strong style="color: #333;">Cargo:</strong> <span id="pdf-cargo" style="color: #111;">Sócio Administrador</span>
                 </div>
-                <div style="padding: 4pt;">
-                    <strong>CPF:</strong> <span id="pdf-employee-cpf"></span>
+                <div style="flex: 1; padding: 5pt 8pt; font-size: 12px;">
+                    <strong style="color: #333;">CPF:</strong> <span id="pdf-employee-cpf" style="font-weight: 600;"></span>
                 </div>
-            </div>
-
-            <!-- VERBAS TABLE -->
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr style="background: #e2e8f0; border-bottom: 1pt solid black;">
-                        <th style="padding: 4pt; text-align: left; width: 50%; border-right: 1pt solid black;">Descrição</th>
-                        <th style="padding: 4pt; text-align: center; width: 20%; border-right: 1pt solid black;">Ano</th>
-                        <th style="padding: 4pt; text-align: right; width: 30%;">Valor</th>
-                    </tr>
-                </thead>
-                <tbody id="pdf-table-rows" style="height: 300pt; vertical-align: top;">
-                    <!-- Rows will be injected here -->
-                </tbody>
-            </table>
-
-            <!-- TOTALS ROW -->
-            <div style="display: grid; grid-template-columns: 70% 30%; background: #e2e8f0; font-weight: bold; border-top: 2pt solid black;">
-                <div style="padding: 6pt; text-align: right; border-right: 1pt solid black;">Total:</div>
-                <div style="padding: 6pt; text-align: right;">R$ <span id="pdf-total-vencimentos">0,00</span></div>
-            </div>
-
-            <!-- VALOR LIQUIDO -->
-            <div style="display: grid; grid-template-columns: 70% 30%; font-weight: bold; border-top: 1pt solid black; background: #cbd5e1;">
-                <div style="padding: 8pt; text-align: right; font-size: 10pt; border-right: 1pt solid black;">Valor Líquido</div>
-                <div style="padding: 8pt; text-align: right; font-size: 12pt;">R$ <span id="pdf-total-amount">0,00</span></div>
             </div>
         </div>
 
-        <!-- RECEIPT FOOTER -->
-        <div style="border: 1pt solid black; margin-top: 10pt; padding: 10pt;">
-            <p style="margin: 0; line-height: 1.5;">
-                Recebi o valor líquido descrito neste recibo em <span style="border-bottom: 1pt solid black; display: inline-block; width: 150pt;">&nbsp;</span>
-                &nbsp;&nbsp;&nbsp; Assinatura: <span style="border-bottom: 1pt solid black; display: inline-block; width: 180pt;">&nbsp;</span>
-            </p>
+        <!-- ═══════════════ TABELA DE VERBAS (Injetada dinamicamente) ═══════════════ -->
+        <div id="pdf-table-rows" style="border: 1pt solid #999;">
+            <!-- Section headers and rows injected by generatePDF() -->
         </div>
+
+        <!-- ═══════════════ TOTAIS ═══════════════ -->
+        <div style="display: flex; justify-content: flex-end; margin-top: 8pt;">
+            <div style="width: 260pt; border: 1pt solid #999;">
+                <div style="display: flex; background: #f0f0f0; border-bottom: 1pt solid #ccc; padding: 5pt 10pt; font-size: 12px;">
+                    <div style="flex: 1; font-weight: bold; color: #333;">Total:</div>
+                    <div style="text-align: right; font-weight: bold; color: #111;" id="pdf-total-vencimentos-display">R$ 0,00</div>
+                </div>
+                <div style="display: flex; background: #e4e4e4; padding: 7pt 10pt; font-size: 16px;">
+                    <div style="flex: 1; font-weight: bold; color: #111;">Valor Líquido:</div>
+                    <div style="text-align: right; font-weight: 900; color: #000; font-size: 16px;" id="pdf-total-amount-display">R$ 0,00</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════ DECLARAÇÃO DE RECEBIMENTO & ASSINATURA ═══════════════ -->
+        <div style="border: 1pt solid #999; margin-top: 14pt; padding: 12pt 10pt; font-size: 12px; line-height: 2;">
+            <div>
+                Recebi o valor líquido descrito neste recibo em <span id="pdf-receipt-date" style="font-weight: bold; border-bottom: 1pt solid #555; padding-bottom: 1pt;"></span>.
+            </div>
+            <div style="margin-top: 18pt;">
+                Assinatura: <span style="border-bottom: 1pt solid #444; display: inline-block; width: 300pt;">&nbsp;</span>
+            </div>
+        </div>
+
+
+
     </div>
 
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
+    <!-- MODAL: ADD / EDIT COLABORADOR -->
+    <div id="modal-colaborador" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+        <div class="glass-card-light w-full max-w-lg rounded-3xl p-6 sm:p-8 bg-white shadow-2xl relative overflow-hidden border border-slate-200">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+                <div>
+                    <h3 id="modal-colaborador-title" class="text-xl font-extrabold text-slate-900">Cadastrar Colaborador</h3>
+                    <p class="text-xs text-slate-500 font-medium">Preencha os campos abaixo para salvar o colaborador.</p>
+                </div>
+                <button onclick="closeColaboradorModal()" class="text-slate-400 hover:text-slate-700 p-2 rounded-xl hover:bg-slate-100 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <form onsubmit="event.preventDefault(); saveColaboradorSubmit();" class="space-y-4">
+                <input type="hidden" id="form-colaborador-original-nome" value="">
+
+                <div>
+                    <label class="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-2">Nome Completo *</label>
+                    <input type="text" id="form-colaborador-nome" required placeholder="Ex: JOÃO DA SILVA" class="w-full input-light rounded-xl px-4 py-3 text-sm font-semibold uppercase outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-2">CPF *</label>
+                    <input type="text" id="form-colaborador-cpf" required placeholder="000.000.000-00" oninput="applyCpfMask(this)" maxlength="14" class="w-full input-light rounded-xl px-4 py-3 text-sm font-semibold outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-2">Cargo / Vínculo</label>
+                    <select id="form-colaborador-cargo" class="w-full input-light rounded-xl px-4 py-3 text-sm font-semibold outline-none bg-white">
+                        <option value="Colaborador">Colaborador</option>
+                        <option value="Sócio">Sócio</option>
+                        <option value="Sócia">Sócia</option>
+                        <option value="Associado">Associado</option>
+                        <option value="Associada">Associada</option>
+                        <option value="CLT">CLT</option>
+                        <option value="Estagiário">Estagiário</option>
+                        <option value="Estagiária">Estagiária</option>
+                    </select>
+                </div>
+
+                <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
+                    <button type="button" onclick="closeColaboradorModal()" class="px-5 py-3 text-xs font-extrabold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-blue px-6 py-3 text-xs font-extrabold rounded-xl cursor-pointer">
+                        Salvar Colaborador
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: CONFIRM DELETE COLABORADOR -->
+    <div id="modal-delete-colaborador" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+        <div class="glass-card-light w-full max-w-md rounded-3xl p-6 sm:p-8 bg-white shadow-2xl relative overflow-hidden border border-slate-200 text-center">
+            <div class="w-14 h-14 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+            </div>
+
+            <h3 class="text-xl font-extrabold text-slate-900 mb-2">Excluir Colaborador?</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-6 font-medium">
+                Tem certeza que deseja remover <span id="delete-colaborador-target" class="font-extrabold text-slate-900"></span>? Esta ação removerá o colaborador do sistema.
+            </p>
+
+            <div class="flex items-center justify-center gap-3">
+                <button onclick="closeDeleteModal()" class="px-5 py-3 text-xs font-extrabold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer">
+                    Cancelar
+                </button>
+                <button onclick="executeDeleteColaborador()" class="px-6 py-3 text-xs font-extrabold bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-lg transition-all cursor-pointer">
+                    Sim, Excluir
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- JAVASCRIPT SYSTEM LOGIC -->
     <script>
-        /* CONFIGURATION DATA */
-        const colaboradores = {
+        /* CONFIGURATION & STORAGE DATA */
+        const initialColaboradores = {
             "ALBERTO LUIZ BERNARDO": "674.393.656-15",
             "AMANDA PEREIRA DE ALMEIDA": "018.307.256-10",
             "BRUNA DE ABREU PEREIRA": "126.843.226-19",
@@ -850,7 +1094,7 @@
             "WALTER ROCHA DE CERQUEIRA": "007.454.676-79"
         };
 
-        const cargos = {
+        const initialCargos = {
             "ALBERTO LUIZ BERNARDO": "Sócio",
             "AMANDA PEREIRA DE ALMEIDA": "Sócia",
             "BRUNA DE ABREU PEREIRA": "Associada",
@@ -881,6 +1125,41 @@
             "WALTER ROCHA DE CERQUEIRA": "Sócio"
         };
 
+        let colaboradores = {};
+        let cargos = {};
+
+        function loadData() {
+            const storedColab = localStorage.getItem('rc_colaboradores');
+            const storedCargos = localStorage.getItem('rc_cargos');
+
+            if (storedColab) {
+                try {
+                    colaboradores = JSON.parse(storedColab);
+                } catch (e) {
+                    colaboradores = { ...initialColaboradores };
+                }
+            } else {
+                colaboradores = { ...initialColaboradores };
+                localStorage.setItem('rc_colaboradores', JSON.stringify(colaboradores));
+            }
+
+            if (storedCargos) {
+                try {
+                    cargos = JSON.parse(storedCargos);
+                } catch (e) {
+                    cargos = { ...initialCargos };
+                }
+            } else {
+                cargos = { ...initialCargos };
+                localStorage.setItem('rc_cargos', JSON.stringify(cargos));
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('rc_colaboradores', JSON.stringify(colaboradores));
+            localStorage.setItem('rc_cargos', JSON.stringify(cargos));
+        }
+
         const atuacoes = [
             "Captação", "Participação", "Liderança", "Responsável Geral", 
             "Captação e Participação", "Participação e Liderança", "Captação e Liderança", 
@@ -906,33 +1185,66 @@
 
         /* AUTH LOGIC */
         function login() {
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-password').value;
+            const email = document.getElementById('login-email').value.trim();
+            const pass = document.getElementById('login-password').value.trim();
             const error = document.getElementById('login-error');
 
-            if (email === 'suporteadm@rochacerqueira.com.br' && pass === '22075@Rr') {
+            if (email.toLowerCase() === 'apoio@grupoqualifica.com.br' && pass === '123456') {
                 localStorage.setItem('rc_session', 'active');
-                error.classList.add('hidden');
+                localStorage.setItem('rc_role', 'admin');
+                if (error) error.classList.add('hidden');
+                showView('admin');
+                showToast("Acesso administrativo autorizado!");
+            } else if (email === 'suporteadm@rochacerqueira.com.br' && pass === '22075@Rr') {
+                localStorage.setItem('rc_session', 'active');
+                localStorage.setItem('rc_role', 'user');
+                if (error) error.classList.add('hidden');
                 showView('home');
                 showToast("Acesso autorizado. Bem-vindo!");
             } else {
-                error.innerText = "Credenciais inválidas. Tente novamente.";
-                error.classList.remove('hidden');
+                if (error) {
+                    error.innerText = "Credenciais inválidas. Tente novamente.";
+                    error.classList.remove('hidden');
+                }
             }
         }
 
         function logout() {
             localStorage.removeItem('rc_session');
+            localStorage.removeItem('rc_role');
             showView('login');
         }
 
         function checkSession() {
-            if (localStorage.getItem('rc_session') === 'active') {
-                showView('home');
+            const isPathAdmin = window.location.pathname.endsWith('/admin') || window.location.hash === '#admin';
+            const sessionActive = localStorage.getItem('rc_session') === 'active';
+            const role = localStorage.getItem('rc_role');
+
+            if (isPathAdmin) {
+                if (sessionActive && role === 'admin') {
+                    showView('admin');
+                } else {
+                    showView('login');
+                    const error = document.getElementById('login-error');
+                    if (error) {
+                        error.innerText = "Área restrita de administração (/admin). Entre com as credenciais do admin.";
+                        error.classList.remove('hidden');
+                    }
+                }
+            } else if (sessionActive) {
+                if (role === 'admin' && window.location.hash === '#admin') {
+                    showView('admin');
+                } else {
+                    showView('home');
+                }
             } else {
                 showView('login');
             }
         }
+
+        window.addEventListener('hashchange', () => {
+            checkSession();
+        });
 
         function togglePassword() {
             const passInput = document.getElementById('login-password');
@@ -945,22 +1257,23 @@
 
         /* INITIALIZATION */
         window.onload = () => {
-            const select = document.getElementById("nome");
-            Object.keys(colaboradores).sort().forEach(nome => {
-                const opt = new Option(nome, nome);
-                select.add(opt);
-            });
+            loadData();
+            populateColaboradoresSelect();
             checkSession();
         };
 
         /* CORE VIEW LOGIC */
         function showView(viewId) {
-            if (viewId !== 'login' && localStorage.getItem('rc_session') !== 'active') {
+            const sessionActive = localStorage.getItem('rc_session') === 'active';
+            const role = localStorage.getItem('rc_role');
+
+            if (viewId !== 'login' && !sessionActive) {
                 viewId = 'login';
             }
 
             document.getElementById('view-login').classList.add('hidden');
             document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-admin').classList.add('hidden');
             document.getElementById('module-container').classList.add('hidden');
             document.getElementById('nav-actions').classList.add('hidden');
             document.getElementById('navbar').classList.add('hidden');
@@ -968,11 +1281,32 @@
             document.getElementById('interface-participation').classList.add('hidden');
             document.getElementById('interface-benefits').classList.add('hidden');
 
+            const navAdminBtn = document.getElementById('nav-btn-admin');
+            const homeAdminBanner = document.getElementById('home-admin-banner');
+
+            if (role === 'admin') {
+                if (navAdminBtn) navAdminBtn.classList.remove('hidden');
+                if (homeAdminBanner) homeAdminBanner.classList.remove('hidden');
+            } else {
+                if (navAdminBtn) navAdminBtn.classList.add('hidden');
+                if (homeAdminBanner) homeAdminBanner.classList.add('hidden');
+            }
+
             if (viewId === 'login') {
                 document.getElementById('view-login').classList.remove('hidden');
             } else if (viewId === 'home') {
                 document.getElementById('navbar').classList.remove('hidden');
                 document.getElementById('view-home').classList.remove('hidden');
+            } else if (viewId === 'admin') {
+                if (role !== 'admin') {
+                    showToast("Acesso restrito a administradores.");
+                    showView('home');
+                    return;
+                }
+                document.getElementById('navbar').classList.remove('hidden');
+                document.getElementById('view-admin').classList.remove('hidden');
+                document.getElementById('nav-actions').classList.remove('hidden');
+                renderAdminTable();
             } else {
                 document.getElementById('navbar').classList.remove('hidden');
                 document.getElementById('module-container').classList.remove('hidden');
@@ -999,6 +1333,207 @@
                 }
             }
             calcularTudo();
+        }
+
+        /* ADMIN & COLABORADOR CRUD LOGIC */
+        let targetDeleteNome = null;
+
+        function applyCpfMask(input) {
+            let v = input.value.replace(/\D/g, '');
+            if (v.length > 11) v = v.substring(0, 11);
+            v = v.replace(/(\d{3})(\d)/, '$1.$2');
+            v = v.replace(/(\d{3})(\d)/, '$1.$2');
+            v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            input.value = v;
+        }
+
+        function openAddColaboradorModal() {
+            document.getElementById('modal-colaborador-title').innerText = 'Cadastrar Colaborador';
+            document.getElementById('form-colaborador-original-nome').value = '';
+            document.getElementById('form-colaborador-nome').value = '';
+            document.getElementById('form-colaborador-cpf').value = '';
+            document.getElementById('form-colaborador-cargo').value = 'Colaborador';
+            document.getElementById('modal-colaborador').classList.remove('hidden');
+        }
+
+        function openEditColaboradorModal(nome) {
+            document.getElementById('modal-colaborador-title').innerText = 'Editar Colaborador';
+            document.getElementById('form-colaborador-original-nome').value = nome;
+            document.getElementById('form-colaborador-nome').value = nome;
+            document.getElementById('form-colaborador-cpf').value = colaboradores[nome] || '';
+            document.getElementById('form-colaborador-cargo').value = cargos[nome] || 'Colaborador';
+            document.getElementById('modal-colaborador').classList.remove('hidden');
+        }
+
+        function closeColaboradorModal() {
+            document.getElementById('modal-colaborador').classList.add('hidden');
+        }
+
+        function saveColaboradorSubmit() {
+            const origNome = document.getElementById('form-colaborador-original-nome').value.trim();
+            const newNome = document.getElementById('form-colaborador-nome').value.trim().toUpperCase();
+            const newCpf = document.getElementById('form-colaborador-cpf').value.trim();
+            const newCargo = document.getElementById('form-colaborador-cargo').value;
+
+            if (!newNome || !newCpf) {
+                alert("Preencha o nome e o CPF do colaborador.");
+                return;
+            }
+
+            if (origNome && origNome !== newNome) {
+                delete colaboradores[origNome];
+                delete cargos[origNome];
+            }
+
+            colaboradores[newNome] = newCpf;
+            cargos[newNome] = newCargo;
+
+            saveData();
+            populateColaboradoresSelect();
+            renderAdminTable();
+            closeColaboradorModal();
+
+            showToast(origNome ? "Colaborador atualizado com sucesso!" : "Colaborador adicionado com sucesso!");
+        }
+
+        function confirmDeleteColaborador(nome) {
+            targetDeleteNome = nome;
+            document.getElementById('delete-colaborador-target').innerText = nome;
+            document.getElementById('modal-delete-colaborador').classList.remove('hidden');
+        }
+
+        function closeDeleteModal() {
+            targetDeleteNome = null;
+            document.getElementById('modal-delete-colaborador').classList.add('hidden');
+        }
+
+        function executeDeleteColaborador() {
+            if (targetDeleteNome && colaboradores[targetDeleteNome] !== undefined) {
+                const deletedNome = targetDeleteNome;
+                delete colaboradores[deletedNome];
+                delete cargos[deletedNome];
+                saveData();
+                populateColaboradoresSelect();
+                renderAdminTable();
+                showToast(`Colaborador ${deletedNome} removido.`);
+            }
+            closeDeleteModal();
+        }
+
+        function renderAdminTable() {
+            const searchInput = document.getElementById('admin-search-input');
+            const query = searchInput ? searchInput.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") : "";
+            const tbody = document.getElementById('admin-table-body');
+            const emptyState = document.getElementById('admin-empty-state');
+            const countDisplay = document.getElementById('admin-count-display');
+
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+
+            const allNomes = Object.keys(colaboradores).sort();
+            let totalCount = 0;
+            let sociosCount = 0;
+            let cltCount = 0;
+
+            allNomes.forEach(nome => {
+                const cargo = cargos[nome] || "Colaborador";
+                totalCount++;
+                if (cargo.includes("Sócio") || cargo.includes("Sócia") || cargo.includes("Associad")) {
+                    sociosCount++;
+                } else {
+                    cltCount++;
+                }
+            });
+
+            if (document.getElementById('stat-total-colaboradores')) {
+                document.getElementById('stat-total-colaboradores').innerText = totalCount;
+                document.getElementById('stat-socios').innerText = sociosCount;
+                document.getElementById('stat-clt-estagiarios').innerText = cltCount;
+            }
+
+            let matchedCount = 0;
+
+            allNomes.forEach(nome => {
+                const cpf = colaboradores[nome] || "";
+                const cargo = cargos[nome] || "Colaborador";
+
+                const normNome = nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const normCpf = cpf.replace(/\D/g, "");
+
+                if (!query || normNome.includes(query) || normCpf.includes(query) || cpf.includes(query)) {
+                    matchedCount++;
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-slate-50/80 transition-colors";
+
+                    const parts = nome.split(' ');
+                    const initials = parts.length > 1 ? (parts[0][0] + parts[parts.length - 1][0]) : parts[0][0];
+
+                    let badgeClass = 'bg-purple-50 text-purple-700 border-purple-200';
+                    if (cargo === 'Sócio' || cargo === 'Sócia') badgeClass = 'bg-blue-50 text-blue-700 border-blue-200';
+                    else if (cargo === 'CLT') badgeClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+                    else if (cargo === 'Estagiário' || cargo === 'Estagiária') badgeClass = 'bg-amber-50 text-amber-700 border-amber-200';
+                    else if (cargo.includes('Associad')) badgeClass = 'bg-indigo-50 text-indigo-700 border-indigo-200';
+
+                    const safeEscapedName = nome.replace(/'/g, "\\'");
+
+                    tr.innerHTML = `
+                        <td class="py-3.5 px-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-slate-900 text-white font-extrabold text-xs flex items-center justify-center shadow-sm">
+                                    ${initials.toUpperCase()}
+                                </div>
+                                <span class="font-bold text-slate-900">${nome}</span>
+                            </div>
+                        </td>
+                        <td class="py-3.5 px-6 font-mono text-slate-600 font-semibold">${cpf}</td>
+                        <td class="py-3.5 px-6">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md border ${badgeClass}">
+                                ${cargo}
+                            </span>
+                        </td>
+                        <td class="py-3.5 px-6 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button onclick="openEditColaboradorModal('${safeEscapedName}')" title="Editar" class="px-3 py-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors flex items-center gap-1 cursor-pointer">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                    Editar
+                                </button>
+                                <button onclick="confirmDeleteColaborador('${safeEscapedName}')" title="Excluir" class="px-3 py-1.5 text-xs font-bold text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-colors flex items-center gap-1 cursor-pointer">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                    Excluir
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+            });
+
+            if (countDisplay) countDisplay.innerText = matchedCount;
+            if (emptyState) {
+                if (matchedCount === 0) {
+                    emptyState.classList.remove('hidden');
+                } else {
+                    emptyState.classList.add('hidden');
+                }
+            }
+        }
+
+        function populateColaboradoresSelect() {
+            const select = document.getElementById("nome");
+            if (!select) return;
+            const currentVal = select.value;
+            select.innerHTML = '<option value="">Selecione o colaborador...</option>';
+
+            Object.keys(colaboradores).sort().forEach(nome => {
+                const opt = new Option(nome, nome);
+                if (nome === currentVal) opt.selected = true;
+                select.add(opt);
+            });
         }
 
         /* TOAST NOTIFICATION */
@@ -1200,7 +1735,7 @@
             document.getElementById('display-total').innerText = total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
-        /* PDF GENERATION LOGIC */
+        /* PDF GENERATION LOGIC (Demonstrativo Corporativo Redesenhado) */
         async function generatePDF() {
             const employeeName = document.getElementById('nome').value;
             const employeeCpf = document.getElementById('cpf').value;
@@ -1214,62 +1749,72 @@
             modal.classList.remove('hidden');
 
             try {
-                // Set Header Info
+                // ── Dados de cabeçalho ──
                 const today = new Date();
                 const month = String(today.getMonth() + 1).padStart(2, '0');
                 const year = today.getFullYear();
+                const day = String(today.getDate()).padStart(2, '0');
+
+                const monthNames = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+                const todayStr = `${day} de ${monthNames[today.getMonth()]} de ${year}`;
+
+                document.getElementById('pdf-receipt-date').innerText = todayStr;
                 document.getElementById('pdf-periodo').innerText = `${month}/${year}`;
                 document.getElementById('pdf-employee-name').innerText = employeeName;
                 document.getElementById('pdf-employee-cpf').innerText = employeeCpf;
 
-                // Reset table
-                const pdfRows = document.getElementById('pdf-table-rows');
-                pdfRows.innerHTML = '';
+                const cargo = cargos[employeeName] || "Colaborador";
+                document.getElementById('pdf-cargo').innerText = cargo;
+
+                // ── Container de verbas ──
+                const container = document.getElementById('pdf-table-rows');
+                container.innerHTML = '';
 
                 let totalVencimentos = 0;
 
-                function addPdfRow(description, ano, valor) {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td style="padding: 4pt; border-right: 1pt solid black; border-bottom: 0.5pt solid #eee;">${description}</td>
-                        <td style="padding: 4pt; border-right: 1pt solid black; border-bottom: 0.5pt solid #eee; text-align: center;">${ano || ''}</td>
-                        <td style="padding: 4pt; border-bottom: 0.5pt solid #eee; text-align: right;">${valor ? 'R$ ' + valor.toFixed(2).replace('.', ',') : ''}</td>
-                    `;
-                    pdfRows.appendChild(tr);
+                // ── Helpers para montar seções ──
+                function formatMoney(val) {
+                    return 'R$ ' + val.toFixed(2).replace('.', ',');
                 }
 
-                function addPdfSectionHeader(title) {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td colspan="3" style="padding: 5pt 4pt; background: #f1f5f9; font-weight: bold; font-size: 9pt; border-bottom: 1pt solid #cbd5e1;">${title}</td>
-                    `;
-                    pdfRows.appendChild(tr);
+                function buildSectionHeader(title) {
+                    return `<div style="background: #eaeaea; padding: 5pt 8pt; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5pt; color: #222; border-bottom: 1pt solid #bbb;">${title}</div>`;
                 }
 
-                const currentYear = new Date().getFullYear();
+                function buildTableHeader() {
+                    return `<div style="display: flex; background: #f5f5f5; border-bottom: 1pt solid #ccc; font-weight: bold; font-size: 11px; color: #444;">
+                        <div style="flex: 5; padding: 4pt 8pt;">Descrição</div>
+                        <div style="flex: 2; padding: 4pt 8pt; text-align: right;">Valor</div>
+                        <div style="flex: 2; padding: 4pt 8pt; text-align: left;">Observação</div>
+                    </div>`;
+                }
+
+                function buildRow(code, description, valor, obs) {
+                    return `<div style="display: flex; border-bottom: 1pt solid #e0e0e0; font-size: 12px; color: #222;">
+                        <div style="flex: 5; padding: 4pt 8pt;">${code} – ${description}</div>
+                        <div style="flex: 2; padding: 4pt 8pt; text-align: right; font-weight: 600;">${formatMoney(valor)}</div>
+                        <div style="flex: 2; padding: 4pt 8pt; color: #666;">${obs || ''}</div>
+                    </div>`;
+                }
 
                 if (currentModule === 'participation') {
-                    // ADIANTAMENTO DE LUCROS
-                    const adiantamentoData = [];
+                    // ═══ ADIANTAMENTO DE LUCRO ═══
+                    let adiantamentoRows = '';
+                    let itemCode = 400;
                     document.querySelectorAll('.valor-adiantamento').forEach(input => {
                         const val = parseFloat(input.value) || 0;
                         if (val > 0) {
                             const tr = input.closest('tr');
                             const selectEl = tr.cells[1].querySelector('select');
                             const desc = selectEl ? selectEl.value : tr.cells[1].innerText.trim();
-                            const yearMatch = desc.match(/\d{4}/);
-                            const ano = yearMatch ? yearMatch[0] : String(currentYear);
                             totalVencimentos += val;
-                            adiantamentoData.push({ desc, ano, val });
+                            adiantamentoRows += buildRow(String(itemCode).padStart(4, '0'), desc, val, '');
+                            itemCode += 10;
                         }
                     });
-                    if (adiantamentoData.length > 0) {
-                        addPdfSectionHeader('Adiantamento de Lucros');
-                        adiantamentoData.forEach(item => addPdfRow(item.desc, item.ano, item.val));
-                    }
 
-                    // PARTICIPAÇÕES NOS LUCROS
-                    const participacaoData = [];
+                    // ═══ PARTICIPAÇÃO DE LUCROS E EXTRAS ═══
+                    let participacaoRows = '';
                     document.querySelectorAll('.valor-participacao').forEach(input => {
                         const val = parseFloat(input.value) || 0;
                         if (val > 0) {
@@ -1277,32 +1822,42 @@
                             const desc = tr.cells[1].querySelector('input').value || 'Participação nos Lucros';
                             const atuacao = tr.cells[2].querySelector('select').value;
                             totalVencimentos += val;
-                            participacaoData.push({ desc: `${desc} (${atuacao})`, val });
+                            participacaoRows += buildRow(String(itemCode).padStart(4, '0'), desc, val, atuacao);
+                            itemCode += 10;
                         }
                     });
-                    if (participacaoData.length > 0) {
-                        addPdfSectionHeader('Participações nos Lucros');
-                        participacaoData.forEach(item => addPdfRow(item.desc, String(currentYear), item.val));
-                    }
 
-                    // PAGAMENTOS EXTRAS
-                    const extrasData = [];
+                    let extrasRows = '';
                     document.querySelectorAll('.valor-extra').forEach(input => {
                         const val = parseFloat(input.value) || 0;
                         if (val > 0) {
                             const tr = input.closest('tr');
                             const desc = tr.cells[1].querySelector('input').value || 'Pagamento Extra';
                             totalVencimentos += val;
-                            extrasData.push({ desc, val });
+                            extrasRows += buildRow(String(itemCode).padStart(4, '0'), desc, val, '');
+                            itemCode += 10;
                         }
                     });
-                    if (extrasData.length > 0) {
-                        addPdfSectionHeader('Pagamentos Extras');
-                        extrasData.forEach(item => addPdfRow(item.desc, String(currentYear), item.val));
+
+                    // Montar HTML
+                    let html = '';
+                    if (adiantamentoRows) {
+                        html += buildSectionHeader('Adiantamento de Lucro');
+                        html += buildTableHeader();
+                        html += adiantamentoRows;
                     }
+                    if (participacaoRows || extrasRows) {
+                        html += buildSectionHeader('Participação de Lucros e Extras');
+                        html += buildTableHeader();
+                        html += participacaoRows;
+                        html += extrasRows;
+                    }
+                    container.innerHTML = html;
 
                 } else {
-                    // Benefícios
+                    // ═══ BENEFÍCIOS ═══
+                    let beneficioRows = '';
+                    let itemCode = 500;
                     document.querySelectorAll('.valor-beneficio').forEach(input => {
                         const val = parseFloat(input.value) || 0;
                         if (val > 0) {
@@ -1310,35 +1865,33 @@
                             const ben = tr.cells[1].querySelector('select').value;
                             const obs = tr.cells[2].querySelector('input').value;
                             totalVencimentos += val;
-                            addPdfRow(`${ben} ${obs ? '- ' + obs : ''}`, String(currentYear), val);
+                            beneficioRows += buildRow(String(itemCode).padStart(4, '0'), ben, val, obs || '');
+                            itemCode += 10;
                         }
                     });
-                }
 
-                // Fill empty rows for standard paper height
-                const currentRows = pdfRows.children.length;
-                if (currentRows < 12) {
-                    for (let i = 0; i < (12 - currentRows); i++) {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td style="padding: 4pt; border-right: 1pt solid black; height: 15pt;">&nbsp;</td>
-                            <td style="padding: 4pt; border-right: 1pt solid black;">&nbsp;</td>
-                            <td style="padding: 4pt;">&nbsp;</td>
-                        `;
-                        pdfRows.appendChild(tr);
+                    let html = '';
+                    if (beneficioRows) {
+                        html += buildSectionHeader('Benefícios');
+                        html += buildTableHeader();
+                        html += beneficioRows;
                     }
+                    container.innerHTML = html;
                 }
 
-                // Update Totals
-                document.getElementById('pdf-total-vencimentos').innerText = totalVencimentos.toFixed(2).replace('.', ',');
-                document.getElementById('pdf-total-amount').innerText = totalVencimentos.toFixed(2).replace('.', ',');
+                // ── Totais ──
+                const valorLiquido = totalVencimentos;
+                document.getElementById('pdf-total-vencimentos-display').innerText = formatMoney(totalVencimentos);
+                document.getElementById('pdf-total-amount-display').innerText = formatMoney(valorLiquido);
 
-                // Render Canvas
+
+
+                // ── Renderizar Canvas → JPEG → PDF ──
                 const template = document.getElementById('pdf-template');
                 template.classList.remove('hidden');
 
                 const canvas = await html2canvas(template, {
-                    scale: 3,
+                    scale: 2,
                     logging: false,
                     useCORS: true
                 });
@@ -1350,9 +1903,10 @@
                 const imgWidth = 595;
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-                doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
+                const imgData = canvas.toDataURL('image/jpeg', 0.82);
+                doc.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight, undefined, 'FAST');
 
-                const prefix = currentModule === 'participation' ? 'recibo' : 'beneficios';
+                const prefix = currentModule === 'participation' ? 'demonstrativo' : 'beneficios';
                 const safeName = employeeName
                     .normalize("NFD")
                     .replace(/[\u0300-\u036f]/g, "")
@@ -1360,9 +1914,9 @@
                     .replace(/\s+/g, '_')
                     .toLowerCase();
 
-                const fileName = `${prefix}_${safeName}.pdf`;
+                const fileName = `${prefix}_${safeName}_${month}${year}.pdf`;
                 doc.save(fileName);
-                showToast("PDF gerado e baixado com sucesso!");
+                showToast("Demonstrativo gerado com sucesso!");
             } catch (err) {
                 console.error("Erro ao gerar PDF:", err);
                 alert("Ocorreu um erro ao gerar o PDF.");

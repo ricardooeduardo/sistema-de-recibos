@@ -1,0 +1,25 @@
+{
+  "name": "sistema-de-recibos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ricardooeduardo/sistema-de-recibos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ricardooeduardo/sistema-de-recibos/issues"
+  },
+  "homepage": "https://github.com/ricardooeduardo/sistema-de-recibos#readme",
+  "devDependencies": {
+    "vite": "^8.0.3"
+  }
+}
