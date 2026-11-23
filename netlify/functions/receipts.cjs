@@ -5,7 +5,8 @@ const { receiptInput, fail } = require('../../server/validation.cjs');
 exports.handler = wrap(async event => {
     if(event.httpMethod !== 'POST') return json(405,{error:'Método não permitido.'});
     const {db,user} = await authenticate(event, true);
-    const {pdf, ...values} = receiptInput(body(event));
+    const input=body(event); const status=input.status === 'draft' ? 'draft' : 'sent';
+    const {pdf, ...values} = receiptInput(input);
     const file_sha256 = createHash('sha256').update(pdf).digest('hex');
     const existing = check(await db.from('receipts').select('*').eq('id',values.id).maybeSingle());
     if(existing) {
@@ -18,7 +19,7 @@ exports.handler = wrap(async event => {
     const file_path = `${employee.id}/${values.id}.pdf`;
     const upload = await db.storage.from('receipt-originals').upload(file_path,pdf,{contentType:'application/pdf',upsert:false});
     if(upload.error) throw upload.error;
-    const result = await db.from('receipts').insert({...values,file_path,file_sha256,employee_name:employee.full_name,
+    const result = await db.from('receipts').insert({...values,status,sent_at:status==='sent'?new Date().toISOString():null,file_path,file_sha256,employee_name:employee.full_name,
         employee_cpf:employee.cpf,job_title:employee.job_title,created_by:user.id}).select().single();
     if(result.error) { await db.storage.from('receipt-originals').remove([file_path]); throw result.error; }
     return json(201,{receipt:result.data});

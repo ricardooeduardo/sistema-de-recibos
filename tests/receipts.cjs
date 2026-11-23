@@ -28,12 +28,13 @@ test('rename keeps identity and server rejection preserves existing people',asyn
  a.run('openEditColaboradorModal("ANTIGO")');a.el('nome').value='ANTIGO';a.el('form-colaborador-nome').value='NOVO';await a.run('saveColaboradorSubmit()');assert.equal(a.el('nome').value,'NOVO');assert.equal(a.rows[0].id,'1');
  a.run('openEditColaboradorModal("NOVO")');a.el('form-colaborador-nome').value='OUTRO';await a.run('saveColaboradorSubmit()');assert.equal(a.rows[0].full_name,'NOVO');assert.match(a.el('colaborador-error').textContent,/duplicado/);
 });
-test('PDF generator archives the selected month, receipt date and amount before download',async()=>{
+test('PDF download is independent from drafts and sending',async()=>{
  const a=setup();fill(a,'TESTE');await a.run('saveColaboradorSubmit()');a.el('nome').value='TESTE';a.el('data-recebimento').value='2024-02-29';a.el('competencia-recibo').value='2024-01';
  a.run(`document.querySelectorAll = s => ['.valor-adiantamento','.valor-beneficio'].includes(s) ? [{value:'10',closest:()=>({cells:[{}, {innerText:'Teste',querySelector:()=>({value:'Teste'})}, {querySelector:()=>({value:''})}]})}] : []`);
  for(const module of ['participation','benefits']){await a.run(`currentModule='${module}';generatePDF()`);assert.equal(a.el('pdf-receipt-date').innerText,'29 de fevereiro de 2024');assert.equal(a.el('pdf-periodo').innerText,'01/2024');}
- assert.equal(a.downloads(),2);assert.equal(a.issued.length,2);assert.equal(a.issued[0].amount_cents,1000);assert.equal(a.issued[0].period,'2024-01-01');
- a.portal.issueReceipt=async()=>{throw new Error('offline');};a.run('console.error=()=>{}');await a.run('generatePDF()');assert.equal(a.downloads(),2);assert.equal(a.el('btn-generate').disabled,false);
+ assert.equal(a.downloads(),2);assert.equal(a.issued.length,0);
+ await a.run("generatePDF('draft')");await a.run("generatePDF('send')");assert.equal(a.downloads(),2);assert.equal(a.issued.length,2);assert.equal(a.issued[0].status,'draft');assert.equal(a.issued[1].status,'sent');assert.equal(a.issued[0].amount_cents,1000);assert.equal(a.issued[0].period,'2024-01-01');
+ a.portal.issueReceipt=async()=>{throw new Error('offline');};a.run('console.error=()=>{}');await a.run("generatePDF('send')");assert.equal(a.downloads(),2);assert.equal(a.el('btn-generate').disabled,false);
  a.el('data-recebimento').value='';await a.run('generatePDF()');assert.equal(a.downloads(),2);
 });
 test('employee routes hide administration and legacy session flags no longer authenticate',()=>{

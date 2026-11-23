@@ -12,6 +12,7 @@ const dateTime = value => new Date(value).toLocaleString('pt-BR',{timeZone:'Amer
 const period = value => value.slice(0,7).split('-').reverse().join('/');
 const cpfMask = cpf => String(cpf).replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,'$1.$2.$3-$4');
 let identity = null, employees = [], receipts = [], activeReceipt = null, challenge = null, documentUrl = null, pendingReceipt = null, pendingImport = null;
+let historyMode='sent', calendarMonth=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'}).slice(0,7), selectedDay=null;
 let receiptRequest = 0, sessionVersion = 0, legacy = [], submitting = false;
 function message(id,text,error=false) { const el=$(id); el.textContent=text; el.classList.toggle('hidden',!text); el.classList.toggle('error',error); }
 function requireAdmin() { if(!identity?.admin) throw new Error('Acesso exclusivo da administração.'); }
@@ -189,6 +190,7 @@ async function loadReceipts() {
     $('receipts-description').textContent=identity.admin?'Acompanhe os documentos emitidos e as assinaturas da equipe.':'Consulte os documentos de outros meses e assine os recibos pendentes.';
     try {
         let query=db.from('receipts').select('*, receipt_signatures(*)').order('period',{ascending:false}).order('created_at',{ascending:false});
+        query=query.neq('status','deleted');
         if(!identity.admin) query=query.eq('employee_id',identity.employee.id);
         const month=$('receipt-filter-month').value, status=$('receipt-filter-status').value;
         if(month) query=query.eq('period',month+'-01');
@@ -209,15 +211,40 @@ async function loadReceipts() {
 }
 function renderReceipts() {
     $('receipts-total').textContent=receipts.length;
-    $('receipts-pending').textContent=receipts.filter(r=>!r.signed_at).length;
+    $('receipts-pending').textContent=receipts.filter(r=>r.status!=='draft' && !r.signed_at).length;
     $('receipts-signed').textContent=receipts.filter(r=>r.signed_at).length;
     $('portal-list').replaceChildren();
-    if(!receipts.length) { $('portal-list').innerHTML='<div class="portal-empty">Nenhum recibo encontrado para os filtros selecionados.</div>'; return; }
-    for(const r of receipts) {
+    
+    let target=$('portal-list');
+    if(identity.admin) {
+        const tabs=document.createElement('div'); tabs.className='portal-receipt-actions';
+        for(const [value,label] of [['sent','Enviados · calendário'],['draft','Rascunhos']]) { const b=document.createElement('button'); b.className='portal-button'; b.textContent=label; b.onclick=()=>{historyMode=value;renderReceipts();}; tabs.append(b); } target.append(tabs);
+    }
+    const groups=new Map();
+    if(identity.admin && historyMode==='sent'){
+      const calendar=document.createElement('section');calendar.className='receipt-calendar';
+      const nav=document.createElement('div');nav.className='calendar-nav';
+      const month=document.createElement('input');month.type='month';month.value=calendarMonth;month.setAttribute('aria-label','Mês de envio');month.onchange=()=>{if(month.value){calendarMonth=month.value;selectedDay=null;renderReceipts();}};
+      const title=document.createElement('h3');title.textContent='Calendário de envios';nav.append(title,month);calendar.append(nav);
+      const grid=document.createElement('div');grid.className='calendar-grid';
+      for(const label of ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb']){const el=document.createElement('strong');el.textContent=label;grid.append(el);}
+      const [year,m]=calendarMonth.split('-').map(Number);const first=new Date(year,m-1,1).getDay();
+      for(let i=0;i<first;i++)grid.append(document.createElement('span'));
+      for(let d=1;d<=new Date(year,m,0).getDate();d++){const key=calendarMonth+'-'+String(d).padStart(2,'0');const count=receipts.filter(r=>r.status==='sent' && new Date(r.sent_at||r.created_at).toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'})===key).length;const b=document.createElement('button');b.className='calendar-cell'+(selectedDay===key?' selected':'');b.textContent=d+(count?' · '+count:'');b.setAttribute('aria-label',key+': '+count+' recibos');b.setAttribute('aria-pressed',String(selectedDay===key));b.onclick=()=>{selectedDay=key;renderReceipts();};grid.append(b);}
+      calendar.append(grid);const hint=document.createElement('p');hint.textContent=selectedDay?'Envios de '+selectedDay.split('-').reverse().join('/'):'Selecione um dia para consultar os recibos enviados.';calendar.append(hint);target.append(calendar);
+    }
+
+    for(const r of receipts.filter(r=>!identity.admin || ((r.status||'sent')===historyMode && (historyMode==='draft' || (selectedDay && new Date(r.sent_at||r.created_at).toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'})===selectedDay))))) {
+        if(identity.admin){const day=historyMode==='draft'?'Rascunhos em espera':new Date(r.sent_at||r.created_at).toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo'});if(!groups.has(day)){const group=document.createElement('details');group.className='portal-day';group.open=true;const title=document.createElement('summary');title.textContent=day;group.append(title);target.append(group);groups.set(day,group);} }
+
         const card=document.createElement('article'); card.className='portal-receipt';
-        card.innerHTML=`<div><span class="receipt-status ${r.signed_at?'signed':''}">${r.signed_at?'Assinado':'Pendente de assinatura'}</span><h3>${r.kind==='benefits'?'Benefícios':'Participação nos lucros'} · ${period(r.period)}</h3><p>${escape(r.employee_name)}</p><p>${r.signed_at?'Assinado em '+dateTime(r.signed_at):'Emitido em '+dateTime(r.created_at)}</p></div><div class="portal-receipt-actions"><strong>${money(r.amount_cents)}</strong><button class="portal-button primary">${!r.signed_at && identity.employee?.id===r.employee_id?'Conferir e assinar':'Abrir recibo'}</button></div>`;
+        card.innerHTML=`<div><span class="receipt-status ${r.signed_at?'signed':''}">${r.status==='draft'?'Rascunho':r.signed_at?'Assinado':'Pendente de assinatura'}</span><h3>${r.kind==='benefits'?'Benefícios':'Participação nos lucros'} · ${period(r.period)}</h3><p>${escape(r.employee_name)}</p><p>${r.signed_at?'Assinado em '+dateTime(r.signed_at):'Emitido em '+dateTime(r.created_at)}</p></div><div class="portal-receipt-actions"><strong>${money(r.amount_cents)}</strong><button class="portal-button primary">${!r.signed_at && identity.employee?.id===r.employee_id?'Conferir e assinar':'Abrir recibo'}</button></div>`;
         card.querySelector('button').addEventListener('click',()=>openReceipt(r));
-        $('portal-list').append(card);
+        if(identity.admin){
+ const info=document.createElement('p');info.textContent=r.status==='draft'?'Rascunho · não enviado':('Enviado: '+dateTime(r.sent_at||r.created_at)+' · '+(r.opened_at?'Aberto em '+dateTime(r.opened_at):'Ainda não aberto')+(r.last_sent_at?' · Último envio: '+dateTime(r.last_sent_at):''));card.append(info);
+ for(const [action,label] of (r.status==='draft'?[['send','Confirmar e enviar'],['delete','Excluir rascunho']]:!r.signed_at?[['send','Reenviar']]:[])){const b=document.createElement('button');b.className='portal-button';b.textContent=label;b.onclick=async()=>{b.disabled=true;try{const {error}=await db.rpc('receipt_action',{p_id:r.id,p_action:action});if(error)throw error;await loadReceipts();}catch(e){window.showToast(e.message);b.disabled=false;}};card.append(b);}
+ const day=historyMode==='draft'?'Rascunhos em espera':new Date(r.sent_at||r.created_at).toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo'});groups.get(day).append(card);
+ }else target.append(card);
     }
 }
 async function openReceipt(receipt) {
@@ -230,13 +257,14 @@ async function openReceipt(receipt) {
         const response=await api(`receipt-file?id=${encodeURIComponent(receipt.id)}`);
         const blob=await response.blob();
         if(activeReceipt?.id!==receipt.id) return;
+        if(identity.employee?.id===receipt.employee_id){const {error}=await db.rpc('receipt_action',{p_id:receipt.id,p_action:'opened'});if(error)throw error;}
         documentUrl=URL.createObjectURL(blob); $('receipt-preview').src=documentUrl;
         $('receipt-download').href=documentUrl; $('receipt-download').download=`recibo-${receipt.id}${receipt.signed_at?'-assinado':''}.pdf`; $('receipt-download').classList.remove('hidden');
         message('receipt-document-status','Confira o PDF abaixo. Se o navegador não exibir o documento, use “Baixar PDF”.');
         if(receipt.signed_at) {
             $('signature-result').textContent=`Assinado por ${receipt.employee_name} em ${dateTime(receipt.signed_at)}. O PDF inclui o registro de assinatura.`;
             $('signature-result').classList.remove('hidden');
-        } else if(identity.employee?.id===receipt.employee_id) {
+        } else if(receipt.status!=='draft' && identity.employee?.id===receipt.employee_id) {
             const {data,error}=await db.rpc('prepare_receipt_signature',{p_receipt_id:receipt.id});
             if(error) throw new Error(error.message);
             if(activeReceipt?.id!==receipt.id) return;

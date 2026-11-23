@@ -775,11 +775,11 @@
                             </div>
                         </div>
 
-                        <button id="btn-generate" onclick="generatePDF()" class="w-full sm:w-auto flex-1 max-w-md btn-blue rounded-2xl py-4 px-6 font-extrabold text-base flex items-center justify-center gap-3 cursor-pointer">
+                        <button onclick="generatePDF('draft')" class="portal-button">Salvar rascunho</button><button onclick="generatePDF('send')" class="portal-button primary">Confirmar e enviar</button><button id="btn-generate" onclick="generatePDF('download')" class="w-full sm:w-auto flex-1 max-w-md btn-blue rounded-2xl py-4 px-6 font-extrabold text-base flex items-center justify-center gap-3 cursor-pointer">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                             </svg>
-                            <span>Gerar recibo em PDF</span>
+                            <span>Baixar cópia em PDF</span>
                         </button>
                     </div>
 
@@ -1562,9 +1562,9 @@
 
         /* PDF GENERATION LOGIC (Demonstrativo Corporativo Redesenhado) */
         let generatingReceipt = false;
-        async function generatePDF() {
+        async function generatePDF(action = 'download') {
             if (!window.Portal?.identity?.admin || generatingReceipt) return;
-            if (window.Portal.pendingReceipt) {
+            if (action !== 'download' && window.Portal.pendingReceipt) {
                 generatingReceipt = true;
                 try { await window.Portal.retryReceipt(); }
                 catch (error) { alert(error.message + ' Clique em gerar novamente para reenviar o mesmo recibo.'); }
@@ -1767,10 +1767,10 @@
                     .toLowerCase();
 
                 const fileName = `${prefix}_${safeName}_${month}${year}.pdf`;
-                await window.Portal.issueReceipt({id:crypto.randomUUID(),employee_id:employeeId,period:periodInput.value+'-01',received_on:receiptDateInput.value,
+                if(action !== 'download') await window.Portal.issueReceipt({status:action === 'draft' ? 'draft' : 'sent',id:crypto.randomUUID(),employee_id:employeeId,period:periodInput.value+'-01',received_on:receiptDateInput.value,
                     kind:currentModule,amount_cents:Math.round(totalVencimentos*100),pdf:doc.output('datauristring').split(',')[1]});
-                doc.save(fileName);
-                showToast("Recibo salvo no portal e disponível para assinatura.");
+                if(action === 'download') doc.save(fileName);
+                showToast(action === 'download' ? 'Cópia baixada, sem envio.' : action === 'draft' ? 'Rascunho salvo.' : 'Enviado para assinatura no portal.');
             } catch (err) {
                 console.error("Erro ao gerar PDF:", err);
                 alert(err.message + (window.Portal.pendingReceipt ? ' Clique em gerar novamente para reenviar o mesmo recibo.' : ''));

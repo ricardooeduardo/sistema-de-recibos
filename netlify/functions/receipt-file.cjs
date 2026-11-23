@@ -11,7 +11,7 @@ exports.handler = wrap(async event => {
     if(!receipt) return deny();
     if(!isAdmin) {
         const own = check(await db.from('employees').select('id').eq('id',receipt.employee_id).eq('user_id',user.id).eq('active',true).maybeSingle());
-        if(!own) return deny();
+        if(!own || receipt.status==='draft' || receipt.status==='deleted') return deny();
     }
     const file = check(await db.storage.from('receipt-originals').download(receipt.file_path));
     let bytes = Buffer.from(await file.arrayBuffer());

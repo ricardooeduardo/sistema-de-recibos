@@ -18,6 +18,7 @@ test('PostgreSQL: isolation and immutable signatures',async t=>{
    grant usage on schema auth to authenticated,anon;grant execute on function auth.uid() to authenticated,anon;
    create schema storage;create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);`);
   await db.exec(fs.readFileSync('supabase/migrations/202611180001_portal.sql','utf8'));
+  await db.exec(fs.readFileSync('supabase/migrations/202611230001_receipt_workflow.sql','utf8'));
   const alice='10000000-0000-0000-0000-000000000001',bob='10000000-0000-0000-0000-000000000002',admin='10000000-0000-0000-0000-000000000003',ea='20000000-0000-0000-0000-000000000001',eb='20000000-0000-0000-0000-000000000002',ra='30000000-0000-0000-0000-000000000001',rb='30000000-0000-0000-0000-000000000002';
   await db.exec(`insert into auth.users values('${alice}'),('${bob}'),('${admin}');insert into public.app_admins values('${admin}');
    insert into public.employees(id,user_id,full_name,cpf,email,job_title) values('${ea}','${alice}','ALICE','12345678900','alice@example.test','CLT'),('${eb}','${bob}','BOB','98765432100','bob@example.test','CLT');
@@ -32,6 +33,16 @@ test('PostgreSQL: isolation and immutable signatures',async t=>{
   });
   await t.test('clients cannot promote themselves or directly edit records',async()=>{
    await assert.rejects(db.query('insert into public.app_admins values($1)',[alice]),/permission denied/);await assert.rejects(db.query('update public.receipts set signed_at=now() where id=$1',[ra]),/permission denied/);await assert.rejects(db.query('update public.employees set user_id=$1 where id=$2',[alice,eb]),/permission denied/);
+  });
+  await t.test('drafts cannot be read or signed; sending and opening are protected',async()=>{
+   await db.exec('reset role');await db.query("update public.receipts set status='draft',sent_at=null where id=$1",[ra]);await asUser(alice);
+   assert.equal((await db.query('select * from public.receipts')).rows.length,0);
+   await assert.rejects(db.query('select public.prepare_receipt_signature($1)',[ra]),/indisponível/);
+   await assert.rejects(db.query("select public.receipt_action($1,'send')",[ra]),/negado/);
+   await assert.rejects(db.query('select public.prepare_receipt_signature_internal($1)',[ra]),/permission denied/);
+   await asUser(admin);await db.query("select public.receipt_action($1,'send')",[ra]);
+   await asUser(bob);await assert.rejects(db.query("select public.receipt_action($1,'opened')",[ra]),/negado/);
+   await asUser(alice);await db.query("select public.receipt_action($1,'opened')",[ra]);assert.ok((await db.query('select opened_at from public.receipts where id=$1',[ra])).rows[0].opened_at);
   });
   let challenge;
   await t.test('wrong CPF or missing consent cannot sign',async()=>{
