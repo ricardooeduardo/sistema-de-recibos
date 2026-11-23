@@ -1,3 +1,14 @@
 node_modules
 dist
 .DS_Store
+.env
+.env.*
+!.env.example
+.netlify
+migration/*.json
+_old_node_modules/
+supabase-configurado.jpg
+netlify-configurado.jpg
+admin-permissao.jpg
+admin-configurado.jpg
+netlify-chave-pendente.jpg
