@@ -99,6 +99,7 @@ async function logout() {
 async function savePassword(event) {
     event.preventDefault();
     const password=$('new-password').value;
+    if(password.length<6) return message('password-error','Use pelo menos 6 caracteres.',true);
     if(password!==$('confirm-password').value) return message('password-error','As senhas não coincidem.',true);
     $('password-submit').disabled=true;
     try {
@@ -230,7 +231,7 @@ function renderReceipts() {
       for(const label of ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb']){const el=document.createElement('strong');el.textContent=label;grid.append(el);}
       const [year,m]=calendarMonth.split('-').map(Number);const first=new Date(year,m-1,1).getDay();
       for(let i=0;i<first;i++)grid.append(document.createElement('span'));
-      for(let d=1;d<=new Date(year,m,0).getDate();d++){const key=calendarMonth+'-'+String(d).padStart(2,'0');const count=receipts.filter(r=>r.status==='sent' && new Date(r.sent_at||r.created_at).toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'})===key).length;const b=document.createElement('button');b.className='calendar-cell'+(selectedDay===key?' selected':'');b.textContent=d+(count?' · '+count:'');b.setAttribute('aria-label',key+': '+count+' recibos');b.setAttribute('aria-pressed',String(selectedDay===key));b.onclick=()=>{selectedDay=key;renderReceipts();};grid.append(b);}
+      for(let d=1;d<=new Date(year,m,0).getDate();d++){const key=calendarMonth+'-'+String(d).padStart(2,'0');const count=receipts.filter(r=>r.status==='sent' && new Date(r.sent_at||r.created_at).toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'})===key).length;const b=document.createElement('button');b.disabled=count===0;b.className='calendar-cell'+(selectedDay===key?' selected':'');b.textContent=d+(count?' · '+count:'');b.setAttribute('aria-label',key+': '+count+' recibos');b.setAttribute('aria-pressed',String(selectedDay===key));b.onclick=()=>{selectedDay=key;renderReceipts();};grid.append(b);}
       calendar.append(grid);const hint=document.createElement('p');hint.textContent=selectedDay?'Envios de '+selectedDay.split('-').reverse().join('/'):'Selecione um dia para consultar os recibos enviados.';calendar.append(hint);target.append(calendar);
     }
 

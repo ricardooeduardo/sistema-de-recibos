@@ -73,3 +73,4 @@ body .portal-dialog{border-radius:16px;border:1px solid #dce4df}
 body .portal-dialog-header{background:#f2f5ec;border-bottom:1px solid #dce4df}
 body .office-badge{border-color:#d7e0ce;background:#f0f4e6;color:#4a6028}
 @media(max-width:640px){body .calendar-cell{min-height:46px;font-size:12px}body #view-login h2{font-size:25px}body .receipt-actions>button{width:100%;max-width:none}}
+body .calendar-nav{flex-wrap:wrap}body .calendar-nav input[type=month]{width:240px;min-width:220px;max-width:100%;flex-shrink:0}body .calendar-cell:disabled{color:#8d9891;background:#f5f6f3;border-color:#ecefe8;cursor:default;font-weight:400;opacity:.65}body .calendar-cell:disabled:hover{background:#f5f6f3;border-color:#ecefe8}

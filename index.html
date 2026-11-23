@@ -267,7 +267,7 @@
  <button data-admin-only data-view="benefits" onclick="showView('benefits')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3zM8 12l3 3 5-6"/></svg><span>Benefícios</span></button>
  <button id="nav-btn-admin" data-admin-only data-view="admin" onclick="showView('admin')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M16 3a4 4 0 010 8M22 21v-2a4 4 0 00-3-3.87M13 7a4 4 0 11-8 0 4 4 0 018 0"/></svg><span>Colaboradores</span></button>
  </div>
- <div class="sidebar-bottom"><div class="workspace-label"><div><strong id="portal-account-name">Gestão de recibos</strong><small>Ambiente corporativo</small></div></div><button class="logout-button" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H5v14h4M9 12h12M17 8l4 4-4 4"/></svg> Sair da conta</button><p>Organização em cada detalhe.</p></div>
+ <div class="sidebar-bottom"><div class="workspace-label"><div><strong id="portal-account-name">Gestão de recibos</strong></div></div><button class="logout-button" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H5v14h4M9 12h12M17 8l4 4-4 4"/></svg> Sair da conta</button></div>
  </nav>
 
     <!-- MAIN CONTAINER -->
@@ -335,14 +335,14 @@
         <!-- HOME VIEW (Dashboard Modules) -->
         <div id="view-home" class="py-8 hidden animate-fade-in">
 
- <header class="page-heading home-heading"><div><span class="eyebrow">PORTAL DE GESTÃO</span><h1>Seu trabalho, mais organizado.</h1><p>Gerencie colaboradores e prepare os recibos da sua equipe em um só lugar.</p></div><span class="office-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3zM8 12l3 3 5-6"/></svg> Rocha Cerqueira</span></header>
- <div class="section-heading"><div><h2>Como deseja começar?</h2><p>Escolha uma área para continuar.</p></div><span>ROTINA FINANCEIRA</span></div>
+ <header class="page-heading home-heading"><div><h1>Seu trabalho, mais organizado.</h1></div></header>
+ 
  <div class="module-grid">
  <button class="module-card" onclick="showView('participation')"><span class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9l-6-6zM14 3v6h6M8 13h8M8 17h5"/></svg></span><span class="module-number">01</span><h3>Participação nos lucros</h3><p>Adiantamentos, retiradas fixas, pró-labore e pagamentos extras.</p><span class="module-card-action">Preparar recibo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
  <button class="module-card" onclick="showView('benefits')"><span class="module-icon teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3zM8 12l3 3 5-6"/></svg></span><span class="module-number">02</span><h3>Benefícios</h3><p>Vale-transporte, alimentação, home office e outros auxílios.</p><span class="module-card-action">Lançar benefícios <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
  <button id="home-admin-banner" class="module-card" onclick="showView('admin')"><span class="module-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M16 3a4 4 0 010 8M22 21v-2a4 4 0 00-3-3.87M13 7a4 4 0 11-8 0 4 4 0 018 0"/></svg></span><span class="module-number">03</span><h3>Colaboradores</h3><p>Consulte e atualize nomes, CPFs, cargos e vínculos da equipe.</p><span class="module-card-action">Gerenciar equipe <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
  </div>
- <div class="workflow-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9l-6-6zM14 3v6h6M8 13h8M8 17h5"/></svg><p><strong>Do cadastro ao PDF</strong><span>Selecione o colaborador, informe a data e os valores e gere o documento para assinatura.</span></p></div>
+ 
  </div>
 
         <!-- ADMIN VIEW (/admin) -->
@@ -479,8 +479,8 @@
 
         <section id="view-password" class="hidden portal-password">
             <h2>Defina sua senha</h2><p>Escolha uma senha pessoal para acessar seus recibos.</p>
-            <form id="password-form"><label for="new-password">Nova senha (mínimo de 12 caracteres)</label><input class="input-light" id="new-password" type="password" autocomplete="new-password" minlength="12" required>
-            <label for="confirm-password">Confirme a senha</label><input class="input-light" id="confirm-password" type="password" autocomplete="new-password" minlength="12" required>
+            <form id="password-form"><label for="new-password">Nova senha (mínimo de 6 caracteres)</label><input class="input-light" id="new-password" type="password" autocomplete="new-password" minlength="6" required>
+            <label for="confirm-password">Confirme a senha</label><input class="input-light" id="confirm-password" type="password" autocomplete="new-password" minlength="6" required>
             <p id="password-error" role="alert" class="portal-message error hidden"></p><button class="portal-button primary" id="password-submit">Salvar senha e acessar</button></form>
         </section>
         <section id="view-receipts" class="hidden">
@@ -790,9 +790,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="relative z-10 py-6 text-center text-xs text-slate-500 border-t border-slate-200 bg-white/60">
-        <p><span>© 2026 Rocha Cerqueira</span><span>Portal de gestão de recibos · Uso interno</span></p>
-    </footer>
+    
 
     <!-- PDF LOADING OVERLAY -->
     <div id="pdf-loading-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center">
